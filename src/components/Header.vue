@@ -19,8 +19,8 @@
         <a-menu-item key="2">时间线</a-menu-item>
         <a-menu-item key="3">留言板</a-menu-item>
         <a-menu-item key="4">友链</a-menu-item>
-        <a-menu-item key="5">挖宝</a-menu-item>
-        <a-menu-item key="/treasure">美图</a-menu-item>
+        <a-menu-item key="/treasure">挖宝</a-menu-item>
+        <a-menu-item key="/picture">美图</a-menu-item>
         <a-menu-item key="7">AI</a-menu-item>
         <a-menu-item ></a-menu-item>
         <a-menu-item ></a-menu-item>
