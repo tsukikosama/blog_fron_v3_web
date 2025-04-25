@@ -62,15 +62,13 @@
 
     display: flex;
     flex-direction: column;
-    gap: 36px;
+    gap: 24px;
   }
   .public_container div{
     background-color: white;
 
   }
-  .container{
-    padding: 10px;
-  }
+
   .search{
     background-color: white;
     display: flex;
