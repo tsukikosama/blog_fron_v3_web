@@ -1,13 +1,13 @@
 import axios from "axios";
-import {ref} from "vue";
+import {Message} from "@arco-design/web-vue";
 
 
 const request = axios.create({
-    baseURL: 'http://localhost:8099',  // 注意！！ 这里是全局统一加上了 '/api' 前缀，也就是说所有接口都会加上'/api'前缀在，页面里面写接口的时候就不要加 '/api'了，否则会出现2个'/api'，类似 '/api/api/user'这样的报错，切记！！！
+    baseURL: 'http://localhost:9002/api',  // 注意！！ 这里是全局统一加上了 '/api' 前缀，也就是说所有接口都会加上'/api'前缀在，页面里面写接口的时候就不要加 '/api'了，否则会出现2个'/api'，类似 '/api/api/user'这样的报错，切记！！！
     timeout: 10000
 })
 
-const fullscreenLoading = ref(false)
+
 // request 拦截器
 // 可以自请求发送前对请求做一些处理
 // 比如统一加token，对请求参数统一加密
@@ -33,7 +33,7 @@ request.interceptors.request.use((config: any ) => {
 
 interface Res {
     data: any;
-    errorMsg : string;
+    msg : string;
     success : boolean;
     total : number;
     code: number;
@@ -49,9 +49,10 @@ request.interceptors.response.use(
 
         if (res.code == 401){
             location.href = "http://localhost:5173/login"
-            return Promise.reject(res.errorMsg);
+            return Promise.reject(res.msg);
         }
         if (res.code != 200){
+            Message.info(res.msg)
             return res;
         }
 

@@ -11,7 +11,6 @@ import MyInfo from "../components/MyInfo.vue";
 <!--    左边-->
       <div>
         <Blog></Blog>
-
       </div>
 <!--    右边-->
     <a-space direction="vertical" :size="36">
