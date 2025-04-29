@@ -7,8 +7,15 @@ import {
   IconStarFill,
   IconHeartFill,
 } from '@arco-design/web-vue/es/icon';
+import {useRoute, useRouter} from "vue-router";
 
+const showReplyInput = ref(false);
+const replyText = ref('')
 
+const route = useRoute();
+const submitReply = () => {
+  console.log("回复",route.params.id)
+}
 </script>
 
 <template>
@@ -36,7 +43,9 @@ import {
         </span>
         {{ 3 + (star ? 1 : 0) }}
       </span>
-      <span class="action" key="reply">
+      <span class="action" key="reply" @click="() => {
+        showReplyInput = true
+      }">
         <IconMessage /> Reply
       </span>
     </template>
@@ -48,6 +57,12 @@ import {
         />
       </a-avatar>
     </template>
+    <div v-if="showReplyInput" style="margin-top: 10px;">
+      <a-textarea v-model="replyText" placeholder="请输入回复内容..." auto-size />
+      <div style="margin-top: 8px; text-align: right;">
+        <a-button type="primary" size="small" @click="submitReply">发送</a-button>
+      </div>
+    </div>
   </a-comment>
 </template>
 
