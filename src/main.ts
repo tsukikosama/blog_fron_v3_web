@@ -16,7 +16,7 @@ import '@kangc/v-md-editor/lib/style/preview.css';
 //@ts-ignore
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
-
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import hljs from 'highlight.js';
 
@@ -25,12 +25,13 @@ VMdPreview.use(githubTheme, {
     Hljs: hljs,
 });
 
-
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 const app = createApp(App);
 app.use(VMdPreview);
 app.use(router);
-app.use(createPinia());
 app.use(ArcoVue);
+app.use(pinia)
 app.use(ArcoVueIcon);
 
 app.mount('#app');

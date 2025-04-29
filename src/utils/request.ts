@@ -19,9 +19,9 @@ request.interceptors.request.use((config: any ) => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
     // config.headers['token'] = user.token;  // 设置请求头
     // console.log(token)
-    if (localStorage.getItem('sa-token') != null){
-        config.headers['satoken'] = localStorage.getItem('satoken');
-    }
+    // if (localStorage.getItem('sa-token') != null){
+    //     config.headers['satoken'] = localStorage.getItem('satoken');
+    // }
     // if (token != '' ){
     //     config.headers['sa-token'] = token;
     // }

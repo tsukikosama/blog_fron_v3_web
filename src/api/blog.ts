@@ -13,6 +13,7 @@ export interface BlogDetail {
     nickname: string;
     avatar: string;
     likes:number;
+    isLike:number;
 }
 export interface blogParams {
     current: number;
@@ -31,3 +32,5 @@ export function queryBlog(params : blogParams) {
 export function getBlogDetailById(id : number){
     return request.get('/blog/detail/'+id)
 }
+
+

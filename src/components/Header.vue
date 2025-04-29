@@ -1,10 +1,12 @@
 <script setup lang="ts">
   import {useRouter} from "vue-router";
+  import {useUserStore} from "../store";
 
   const router = useRouter()
   const handleMenuClick = (key: string) => {
     router.push(key)
   }
+  const userStore = useUserStore();
 </script>
 
 <template>
@@ -33,9 +35,17 @@
         />
       </a-menu>
       <!-- 右边登录按钮 -->
-      <div class="right-actions">
-        <a-link href="link" class="text" :hoverable="false">登录</a-link>
+      <div class="right-actions" v-if="!userStore.username">
+        <a-link  class="text" :hoverable="false" @click="() => {
+          router.push('/login')
+        }">登录</a-link>
         <a-link href="link" class="text" :hoverable="false">注册</a-link>
+      </div>
+      <div class="right-actions" v-else>
+        <a-link  class="text" :hoverable="false" @click="() => {}">{{ userStore.username }}</a-link>
+        <a-link href="link" class="text" :hoverable="false" @click="() => {
+          userStore.clearUserInfo()
+        }">注销</a-link>
       </div>
     </div>
   </div>

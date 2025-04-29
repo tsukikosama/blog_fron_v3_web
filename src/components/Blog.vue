@@ -4,6 +4,8 @@ import {onMounted, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import type {tag} from "../api/tag.ts";
 import {queryTags} from "../api/tag.ts";
+import {like} from "../api/blogLike.ts";
+import {Message} from "@arco-design/web-vue";
 
     const dateList = ref<BlogDetail[]>([])
 
@@ -42,13 +44,36 @@ import {queryTags} from "../api/tag.ts";
       console.log(t)
       return t;
     }
+    const formatDate = (dateStr:string) => {
+      if (!dateStr) return '';
+      const date = new Date(dateStr);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // 补0
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+    const clickList = async (item : BlogDetail) => {
+      await like(item.id);
+      if (item.isLike === 1) {
+        item.likes-=1;
+        item.isLike = 0;
+        Message.info("取消点赞");
+      } else {
+        item.likes += 1;
+        item.isLike = 1;
+        Message.info("点赞成功");
+      }
+
+
+
+    }
 </script>
 
 <template>
   <div class="blog_container">
     <div class="blog" v-for="(item,index) in dateList" :key="index" @click="detail(item.id)">
       <h1>{{ item.title }}</h1>
-      <h2>{{ item.content }}</h2>
+      <h2>{{ item.content.slice(0, 20) }}</h2>
       <a-space >
         <a-tag
             v-for="(tag,index) in getTagName(item.tagId)"
@@ -58,16 +83,15 @@ import {queryTags} from "../api/tag.ts";
         </a-tag>
       </a-space>
       <!--  博客底部   -->
-      <div class="blog_foot" >
+      <div class="blog_foot"  >
         <!-- 左边 -->
         <a-space >
           <a-space>
             <icon-calendar/>
-            {{ item.createDate }}
-
-            <icon-star-fill style="color: gold;"/>
-            <icon-star style="color: gold;"/>
-            {{ item.visit }}
+            {{ formatDate(item.createDate) }}
+              <icon-star-fill v-if="item.isLike == 1" @click.stop="clickList(item)" style="color: gold;"/>
+              <icon-star v-else @click.stop="clickList(item)" style="color: gold;"/>{{item.likes}}
+            流量次数:{{ item.visit }}
           </a-space>
         </a-space>
 
