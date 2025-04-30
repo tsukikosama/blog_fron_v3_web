@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import {onMounted, reactive, ref} from 'vue';
 import {
   IconHeart,
   IconMessage,
@@ -7,15 +7,28 @@ import {
   IconStarFill,
   IconHeartFill,
 } from '@arco-design/web-vue/es/icon';
-import {useRoute, useRouter} from "vue-router";
+import {useRoute} from "vue-router";
+import type {replyRequest} from "../api/reply.ts";
 
 const showReplyInput = ref(false);
-const replyText = ref('')
+const from = ref<replyRequest>({
+
+} as replyRequest)
 
 const route = useRoute();
 const submitReply = () => {
   console.log("回复",route.params.id)
 }
+const basePage = reactive({
+
+})
+//初始化页面数据
+const fetchDate = () => {
+
+}
+onMounted(() => {
+  fetchDate()
+})
 </script>
 
 <template>
@@ -23,6 +36,7 @@ const submitReply = () => {
       author="Socrates"
       content="Comment body content."
       datetime="1 hour"
+
   >
     <template #actions>
       <span class="action" key="heart" @click="onLikeChange">
@@ -45,6 +59,7 @@ const submitReply = () => {
       </span>
       <span class="action" key="reply" @click="() => {
         showReplyInput = true
+
       }">
         <IconMessage /> Reply
       </span>
@@ -57,10 +72,17 @@ const submitReply = () => {
         />
       </a-avatar>
     </template>
-    <div v-if="showReplyInput" style="margin-top: 10px;">
-      <a-textarea v-model="replyText" placeholder="请输入回复内容..." auto-size />
-      <div style="margin-top: 8px; text-align: right;">
-        <a-button type="primary" size="small" @click="submitReply">发送</a-button>
+    <div v-if="showReplyInput" style="margin-top: 10px;width: 50vw">
+      <div style="display: flex; gap: 10px;    align-items: flex-end;">
+        <a-textarea
+            v-model="from.content"
+            placeholder="请输入回复内容..."
+            auto-size
+            style="flex: 1"
+        />
+        <a-button type="primary" @click="submitReply">
+          提交
+        </a-button>
       </div>
     </div>
   </a-comment>
