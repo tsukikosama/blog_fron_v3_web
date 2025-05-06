@@ -1,27 +1,38 @@
 import request from "../utils/request.ts";
 
 export interface replyRequest {
-    blogId:number,
+    blogId:string,
     content:string,
-    replyId?:number
+    replyId:string
 }
 
 //通过博客id获取评论列表
-export interface Comment {
-    id?: number;               // 对应 Long id，使用 number
-    content?: string;          // String -> string
-    createTime?: string;       // LocalDateTime 一般转成 ISO 字符串
-    likes?: number;
-    blogId?: number;
-    replyId?: number;
-    userId?: number;
-    reviewType?: number;
+export interface replyRecord {
+    id: number;               // 对应 Long id，使用 number
+    content: string;          // String -> string
+    createTime: string;       // LocalDateTime 一般转成 ISO 字符串
+    likes: number;
+    replyId: number;
+    userId: number;
+    nickname:string;
+    avatar:string;
+    reviewType: number;
+    childList:replyRecord[]
+    replyStatus:boolean
 }
 export interface queryParam{
-    blogId:number;
+    id:string;
     current: number;
     pageSize: number;
 }
-export function reviewPage(param : queryParam) {
-    return request.get('/review/page',param)
+
+
+export function getReplyByBlogId(params : queryParam){
+    return request.get('/review/page',{
+        params
+    })
+}
+
+export function reply(params : replyRequest){
+    return request.post('/review/reply',params)
 }

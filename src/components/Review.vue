@@ -8,23 +8,39 @@ import {
   IconHeartFill,
 } from '@arco-design/web-vue/es/icon';
 import {useRoute} from "vue-router";
-import type {replyRequest} from "../api/reply.ts";
-
-const showReplyInput = ref(false);
-const from = ref<replyRequest>({
-
-} as replyRequest)
+import type {queryParam, replyRecord, replyRequest} from "../api/reply.ts";
+import {getReplyByBlogId, reply} from "../api/reply.ts";
+import {Message} from "@arco-design/web-vue";
 
 const route = useRoute();
-const submitReply = () => {
-  console.log("回复",route.params.id)
-}
-const basePage = reactive({
 
+
+const from = reactive<replyRequest>({
+  blogId:'',
+  content:'',
+  replyId:''
 })
-//初始化页面数据
-const fetchDate = () => {
 
+const submitReply = async () => {
+    const { data } = await reply(from)
+    Message.info(data)
+    fetchDate()
+}
+const params = reactive({
+  current: 1,
+  pageSize: 10
+} as queryParam)
+
+const dateList = ref<replyRecord[]>([] as replyRecord[])
+//初始化页面数据
+const fetchDate =  async () => {
+   params.id = route.params.id as string
+   from.blogId = route.params.id as string
+   const { data } = await getReplyByBlogId(params);
+   dateList.value = data.records
+   dateList.value.forEach((item: replyRecord) => {
+      item.replyStatus = false
+   });
 }
 onMounted(() => {
   fetchDate()
@@ -32,13 +48,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <a-comment
-      author="Socrates"
-      content="Comment body content."
-      datetime="1 hour"
-
-  >
-    <template #actions>
+ <div id="custom-demo" class="wrapper" style="height: 200vh;overflow: auto;">
+   <div v-for="(item,index) in dateList" style="width: 80vw" :key="index">
+     <a-comment
+         :author="item.nickname"
+         :content="item.content"
+         :datetime="item.createTime"
+     >
+       <template #actions>
       <span class="action" key="heart" @click="onLikeChange">
         <span v-if="like">
           <IconHeartFill :style="{ color: '#f53f3f' }" />
@@ -48,7 +65,7 @@ onMounted(() => {
         </span>
         {{ 83 + (like ? 1 : 0) }}
       </span>
-      <span class="action" key="star" @click="onStarChange">
+         <span class="action" key="star" @click="onStarChange">
         <span v-if="star">
           <IconStarFill style="{ color: '#ffb400' }" />
         </span>
@@ -57,35 +74,56 @@ onMounted(() => {
         </span>
         {{ 3 + (star ? 1 : 0) }}
       </span>
-      <span class="action" key="reply" @click="() => {
-        showReplyInput = true
-
+         <span class="action" key="reply" @click="() => {
+        item.replyStatus = true
+        from.replyId = item.id
       }">
         <IconMessage /> Reply
       </span>
-    </template>
-    <template #avatar>
-      <a-avatar>
-        <img
-            alt="avatar"
-            src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
-        />
-      </a-avatar>
-    </template>
-    <div v-if="showReplyInput" style="margin-top: 10px;width: 50vw">
-      <div style="display: flex; gap: 10px;    align-items: flex-end;">
-        <a-textarea
-            v-model="from.content"
-            placeholder="请输入回复内容..."
-            auto-size
-            style="flex: 1"
-        />
-        <a-button type="primary" @click="submitReply">
-          提交
-        </a-button>
-      </div>
-    </div>
-  </a-comment>
+       </template>
+       <template #avatar>
+         <a-avatar>
+           <img
+               alt="avatar"
+               src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
+           />
+         </a-avatar>
+       </template>
+       <div  v-for="(childItem,index2) in item.childList">
+         <a-comment
+
+             :key="index2"
+             :author="childItem.nickname"
+             :avatar="childItem.avatar"
+             :content="childItem.content"
+             :datetime="childItem.createTime"
+         >
+           <template #actions>
+             <span class="action"> <IconMessage /> Reply </span>
+           </template>
+         </a-comment>
+       </div>
+       <div v-if="item.replyStatus" style="margin-top: 10px;width: 50vw">
+         <div style="display: flex; gap: 10px;    align-items: flex-end;">
+           <a-textarea
+               v-model="from.content"
+               placeholder="请输入回复内容..."
+               auto-size
+               style="flex: 1"
+           />
+           <a-button type="primary" @click="submitReply">
+             提交
+           </a-button>
+         </div>
+       </div>
+     </a-comment>
+   </div>
+   <div >
+     <a-back-top target-container="#custom-demo" style="position:absolute" >
+       <a-button>UP</a-button>
+     </a-back-top>
+   </div>
+ </div>
 </template>
 
 <style scoped>
@@ -102,4 +140,8 @@ onMounted(() => {
 .action:hover {
   background: var(--color-fill-3);
 }
+.wrapper {
+  position: relative;
+}
+
 </style>
