@@ -17,14 +17,13 @@
         <a-menu-item key="0" disabled style="cursor: text">
           这是一个大大的名字啊
         </a-menu-item>
-        <a-menu-item key="1">分类</a-menu-item>
-        <a-menu-item key="2">时间线</a-menu-item>
-        <a-menu-item key="3">留言板</a-menu-item>
-        <a-menu-item key="4">友链</a-menu-item>
+        <a-menu-item key="/">主页</a-menu-item>
+        <a-menu-item key="/timeLine">时间线</a-menu-item>
+        <a-menu-item key="/friendLink">友链</a-menu-item>
         <a-menu-item key="/treasure">挖宝</a-menu-item>
         <a-menu-item key="/picture">美图</a-menu-item>
-        <a-menu-item key="7">AI</a-menu-item>
-        <a-menu-item ></a-menu-item>
+        <a-menu-item key="/Ai">AI</a-menu-item>
+        <a-menu-item key="/">神秘小功能</a-menu-item>
         <a-menu-item ></a-menu-item>
         <a-menu-item ></a-menu-item>
         <a-input-search

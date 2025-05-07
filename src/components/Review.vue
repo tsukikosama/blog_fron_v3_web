@@ -45,11 +45,14 @@ const fetchDate =  async () => {
 onMounted(() => {
   fetchDate()
 })
+
+const replyShow = ref(false);
 </script>
 
 <template>
- <div id="custom-demo" class="wrapper" style="height: 200vh;overflow: auto;">
-   <div v-for="(item,index) in dateList" style="width: 80vw" :key="index">
+ <div id="custom-demo" class="wrapper" >
+   <a-divider orientation="center">评论区</a-divider>
+   <div v-for="(item,index) in dateList" class="content"  :key="index">
      <a-comment
          :author="item.nickname"
          :content="item.content"
@@ -117,12 +120,32 @@ onMounted(() => {
          </div>
        </div>
      </a-comment>
+
    </div>
-   <div >
-     <a-back-top target-container="#custom-demo" style="position:absolute" >
-       <a-button>UP</a-button>
-     </a-back-top>
+   <div v-show="replyShow" style="margin-top: 10px;width: 50vw;background: white;margin: 20px">
+     <div style="display: flex; gap: 10px;    align-items: flex-end;">
+       <a-textarea
+           v-model="from.content"
+           placeholder="请输入回复内容..."
+           auto-size
+           style="flex: 1"
+       />
+       <a-button type="primary" @click="submitReply">
+         提交
+       </a-button>
+     </div>
    </div>
+   <a-affix :offset-bottom="100" :style="{ right: '40px', position: 'fixed' }" >
+<!--     回到顶部  -->
+     <a-button shape="circle" size="large" type="primary">up</a-button>
+   </a-affix>
+
+     <a-affix :offset-bottom="60" :style="{ right: '40px', position: 'fixed' }" >
+       <a-button shape="circle" size="large" type="primary" @click="() => {
+         replyShow = true
+       }">评论</a-button>
+     </a-affix>
+
  </div>
 </template>
 
@@ -141,7 +164,14 @@ onMounted(() => {
   background: var(--color-fill-3);
 }
 .wrapper {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 5vh 10vw;
+  background: white;
+
+}
+.content {
+  margin: 20px 20px  0px 20px;
 }
 
 </style>
