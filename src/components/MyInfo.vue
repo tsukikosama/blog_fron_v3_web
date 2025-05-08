@@ -1,5 +1,20 @@
 <script setup lang="ts">
+  import {useUserStore} from "../store";
+  import {onMounted, ref} from "vue";
+  import type {mainUserInfo} from "../api/user.ts";
+  import {mainPageInfo} from "../api/user.ts";
 
+  const userStore = useUserStore();
+  // 获取文章标签分类信息
+  const infoDate = ref<mainUserInfo>({} as mainUserInfo)
+
+  const fetchDate = async () => {
+    const { data } = await mainPageInfo();
+    infoDate.value = data
+  }
+  onMounted(()=>{
+    fetchDate()
+  })
 </script>
 
 <template>
@@ -8,19 +23,19 @@
       <a-avatar :size="64">
         <img
             alt="avatar"
-            src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
+            :src="userStore.avatar"
         />
 
       </a-avatar>
       <div style="text-align: center">
-        <span>用户名</span>
+        <span>{{userStore.nickname}}</span>
       </div>
       <div>
-        <span>文章数量</span>
+        <span>文章总数:{{infoDate.blogCount}}</span>
         <a-divider direction="vertical" />
-        <span>点赞数</span>
+        <span>本周更新:{{infoDate.weekCount}}</span>
         <a-divider direction="vertical" />
-        <span>评论数</span>
+        <span>本月更新:{{infoDate.monthCount}}</span>
       </div>
     </a-space>
   </div>

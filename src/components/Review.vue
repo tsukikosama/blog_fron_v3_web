@@ -122,6 +122,11 @@ const replyShow = ref(false);
      </a-comment>
 
    </div>
+   <div v-if="dateList.length == 0">
+     <a-empty >
+       暂无评论,快来评论一下吧
+     </a-empty>
+   </div>
    <div v-show="replyShow" style="margin-top: 10px;width: 50vw;background: white;margin: 20px">
      <div style="display: flex; gap: 10px;    align-items: flex-end;">
        <a-textarea

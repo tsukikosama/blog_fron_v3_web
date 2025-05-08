@@ -106,6 +106,10 @@ import {Message} from "@arco-design/web-vue";
           </a-avatar>
           <span>{{item.nickname}}</span>
         </a-space>
+
+<!--        <div>-->
+<!--          <a-button>查看详情</a-button>-->
+<!--        </div>-->
       </div>
     </div>
     <div class="page">
@@ -118,8 +122,6 @@ import {Message} from "@arco-design/web-vue";
 .blog_container {
   min-height: 200px;
   width: 50vw;
-
-
 }
 
 .blog_container :hover {
@@ -133,6 +135,7 @@ import {Message} from "@arco-design/web-vue";
 }
 
 .page {
+  display: flex;
   justify-content: center;
   margin: 10px;
   background-color: white;

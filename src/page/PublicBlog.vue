@@ -5,9 +5,10 @@
 <template>
   <a-space class="public_container" direction="vertical">
 <!--    标签 -->
+
     <div class="container">
-      <h1>宝藏分类</h1>
-      <a-space  size="24">
+      <h1>分类</h1>
+      <a-space  size="36">
         <a-tag color="blue" >啊啊啊啊</a-tag>
         <a-tag color="blue" >啊啊啊啊</a-tag>
         <a-tag color="blue" >啊啊啊啊</a-tag><a-tag color="blue" >啊啊啊啊</a-tag>
@@ -68,7 +69,12 @@
     background-color: white;
 
   }
-
+  h1{
+    margin: 10px;
+  }
+  .container{
+    padding: 10px;
+  }
   .search{
     background-color: white;
     display: flex;

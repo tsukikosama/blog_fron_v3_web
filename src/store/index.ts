@@ -4,12 +4,16 @@ interface UserInfo {
     token: string;
     username: string;
     roles: string[];
+    nickname:string,
+    avatar:string,
 }
 
 export const useUserStore = defineStore('user', {
     state: (): UserInfo => ({
         token: '',
         username: '',
+        nickname:'',
+        avatar:'',
         roles: [],
     }),
     actions: {
@@ -17,6 +21,8 @@ export const useUserStore = defineStore('user', {
         setUserInfo(userInfo: UserInfo) {
             this.token = userInfo.token;
             this.username = userInfo.username;
+            this.nickname = userInfo.nickname;
+            this.avatar = userInfo.avatar;
             this.roles = userInfo.roles;
         },
 
@@ -25,6 +31,8 @@ export const useUserStore = defineStore('user', {
             this.token = '';
             this.username = '';
             this.roles = [];
+            this.nickname = '';
+            this.avatar = '';
         },
 
     },

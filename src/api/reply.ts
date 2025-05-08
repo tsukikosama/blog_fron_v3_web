@@ -26,6 +26,12 @@ export interface queryParam{
     pageSize: number;
 }
 
+export interface mainPageReply{
+    id:number;
+    content:string;
+    nickname:string;
+    createTime:string
+}
 
 export function getReplyByBlogId(params : queryParam){
     return request.get('/review/page',{
@@ -35,4 +41,8 @@ export function getReplyByBlogId(params : queryParam){
 
 export function reply(params : replyRequest){
     return request.post('/review/reply',params)
+}
+
+export function getMainPageReply(){
+    return request.get('/review/mainPage')
 }

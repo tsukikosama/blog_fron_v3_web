@@ -4,7 +4,7 @@ export interface userLoginRequest {
     username:string,
     password:string,
 }
-interface User {
+export interface User {
     id: number; // Long 类型对应 TS 的 number
     username: string;
     avatar?: string; // 可选字段
@@ -20,6 +20,11 @@ interface User {
     updateTime?: string; // LocalDateTime 类型通常表示为字符串（ISO 格式）
 }
 
+export interface mainUserInfo{
+    weekCount:number,
+    blogCount:number,
+    monthCount:number
+}
 /**
  * 登录方法
  * @param param
@@ -32,3 +37,6 @@ export function info(){
     return request.get('/user/info')
 }
 
+export function mainPageInfo(){
+    return request.get('/user/mainInfo')
+}

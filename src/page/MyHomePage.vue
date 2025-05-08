@@ -27,6 +27,6 @@ import MyInfo from "../components/MyInfo.vue";
   justify-content: center; /* 水平居中 */
 
   padding: 20px;            /* 可选：内边距 */
-  gap: 10vw; /* 调大间距，比如 80px */
+  gap: 8vw; /* 调大间距，比如 80px */
 }
 </style>
