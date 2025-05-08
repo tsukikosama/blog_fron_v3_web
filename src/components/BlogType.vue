@@ -120,6 +120,11 @@ const search = () =>{
             @change="handlePageChange"
         />
       </div>
+      <div v-if="blogList.length == 0">
+        <a-empty >
+          该分类暂无内容
+        </a-empty>
+      </div>
     </div>
   </a-space>
 </template>

@@ -1,5 +1,5 @@
 import request from "../utils/request.ts";
-import qs from "query-string";
+
 
 export interface BlogDetail {
     id: number;

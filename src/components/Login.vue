@@ -3,6 +3,7 @@ import {reactive} from "vue";
 import {info, login} from "../api/user.ts";
 import request from "../utils/request.ts";
 import {useUserStore} from "../store";
+import router from "../router";
 
 
 const form = reactive({
@@ -18,20 +19,24 @@ const handleSubmit = async () => {
     //登录成功
     request.defaults.headers.common['Authorization'] = date.data
     localStorage.setItem("token",date.data);
+    //如果登录成功去获取一次用户信息
+    const res = await info();
+    // 将密码存入localstorage
+    // 将获取到的内容存入pinia中
+    userStore.setUserInfo(res.data)
+    localStorage.setItem("user_info",res.data);
+    localStorage.setItem("user_name",form.username as string)
+    if (form.isRemember){
+      //将当前的用户名和密码存入
+      localStorage.setItem("user_psd",form.password as string)
+    }
+    //跳转到主页
+    router.push("/")
   }else{
     return
   }
-  //如果登录成功去获取一次用户信息
-  const res = await info();
-  // 将密码存入localstorage
-  // 将获取到的内容存入pinia中
-  userStore.setUserInfo(res.data)
-  localStorage.setItem("user_info",res.data);
-  localStorage.setItem("user_name",form.username as string)
-  if (form.isRemember){
-    //将当前的用户名和密码存入
-    localStorage.setItem("user_psd",form.password as string)
-  }
+
+
 
 }
 </script>

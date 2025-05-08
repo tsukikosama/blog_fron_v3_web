@@ -6,11 +6,10 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     proxy: {
-      '/img-proxy': {
+      '/upload': {
         target: 'http://8.138.16.124:8083',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/img-proxy/, '')
-      }
+        rewrite: path => path.replace(/^\/upload/, '/upload')   }
     }
   }
 })

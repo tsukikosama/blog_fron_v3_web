@@ -9,10 +9,11 @@ import Footer from "./components/Footer.vue";
       <a-layout-header style="position: sticky; top: 0; z-index: 1000; background: white; "><Header /></a-layout-header>
       <a-layout-content class="content" id="basic-demo">
         <router-view></router-view>
-         </a-layout-content>
+      </a-layout-content>
       <a-layout-footer class="footer"><Footer /></a-layout-footer>
     </a-layout>
   </div>
+
 </template>
 
 <style scoped>
