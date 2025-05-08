@@ -63,9 +63,6 @@ import {Message} from "@arco-design/web-vue";
         item.isLike = 1;
         Message.info("点赞成功");
       }
-
-
-
     }
 </script>
 

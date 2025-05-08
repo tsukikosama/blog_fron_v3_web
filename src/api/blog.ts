@@ -18,6 +18,7 @@ export interface BlogDetail {
 export interface blogParams {
     current: number;
     pageSize: number;
+    tagId?:string;
 }
 
 export interface recentBlog{
@@ -31,9 +32,7 @@ export interface recentBlog{
 export function queryBlog(params : blogParams) {
     return request.get('/blog/page',{
         params,
-        paramsSerializer: (obj) => {
-            return qs.stringify(obj);
-        },
+
     })
 }
 
@@ -44,3 +43,11 @@ export function getBlogDetailById(id : number){
 export function getRecentBlog(){
     return request.get('/blog/recentBlog')
 }
+
+// export function getBlogByTagId(tagIds : number[]){
+//     return request.get('/blog/page', {
+//         params: {
+//             tagIds: tagIds.join(',')
+//         }
+//     })
+// }

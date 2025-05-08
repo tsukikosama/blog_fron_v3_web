@@ -8,5 +8,6 @@ export interface tag {
 }
 
 export function queryTags() {
-    return request.get('/tag/list',{})
+    return request.get('/tag/list')
 }
+
