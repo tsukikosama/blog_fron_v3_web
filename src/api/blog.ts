@@ -19,6 +19,7 @@ export interface blogParams {
     current: number;
     pageSize: number;
     tagId?:string;
+    key?:string;
 }
 
 export interface recentBlog{

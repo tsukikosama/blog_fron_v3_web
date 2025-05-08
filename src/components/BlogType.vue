@@ -35,7 +35,8 @@ const check = (item:any) => {
 const params = reactive({
   current: 1,
   pageSize: 9,
-  tagId:''
+  tagId:'',
+  key:''
 } as blogParams)
 const page = ref<number>(1);
 watch(checkList, async (newVal, oldVal) => {
@@ -51,6 +52,9 @@ const handlePageChange = (page) => {
 
   fetchDate(); // 重新请求数据
 };
+const search = () =>{
+  fetchDate()
+}
 </script>
 
 <template>
@@ -73,6 +77,8 @@ const handlePageChange = (page) => {
             placeholder="搜索指定的宝藏"
             button-text="搜索"
             allow-clear
+            v-model="params.key"
+            @search="search()"
             style="width: 300px"
         />
       </div>
