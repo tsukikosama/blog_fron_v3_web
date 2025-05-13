@@ -64,6 +64,10 @@ import {Message} from "@arco-design/web-vue";
         Message.info("点赞成功");
       }
     }
+    const toPage = async (curr:number) => {
+      params.current = curr;
+      await fetchDate()
+    }
 </script>
 
 <template>
@@ -104,13 +108,11 @@ import {Message} from "@arco-design/web-vue";
           <span>{{item.nickname}}</span>
         </a-space>
 
-<!--        <div>-->
-<!--          <a-button>查看详情</a-button>-->
-<!--        </div>-->
+
       </div>
     </div>
     <div class="page">
-      <a-pagination :total="page"/>
+      <a-pagination :total="page" @change="toPage"/>
     </div>
   </div>
 </template>
