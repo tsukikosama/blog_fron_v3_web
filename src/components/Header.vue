@@ -38,7 +38,9 @@
         <a-link  class="text" :hoverable="false" @click="() => {
           router.push('/login')
         }">登录</a-link>
-        <a-link href="link" class="text" :hoverable="false">注册</a-link>
+        <a-link  class="text" :hoverable="false" @click="() => {
+          router.push('/register')
+        }">注册</a-link>
       </div>
       <div class="right-actions" v-else>
         <a-link  class="text" :hoverable="false" @click="() => {}">{{ userStore.username }}</a-link>

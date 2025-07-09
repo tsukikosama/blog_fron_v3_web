@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import {useUserStore} from "../store";
   import {onMounted, ref} from "vue";
-  import type {mainUserInfo} from "../api/user.ts";
-  import {mainPageInfo} from "../api/user.ts";
+  import type {mainUserInfo} from "../api/customer.ts";
+  import {mainPageInfo} from "../api/customer.ts";
 
   const userStore = useUserStore();
   // 获取文章标签分类信息

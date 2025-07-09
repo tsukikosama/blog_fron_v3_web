@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {reactive} from "vue";
-import {info, login} from "../api/user.ts";
+import {info, login} from "../api/customer.ts";
 import request from "../utils/request.ts";
 import {useUserStore} from "../store";
 import router from "../router";
@@ -10,12 +10,14 @@ const form = reactive({
   username:localStorage.getItem("user_name")?localStorage.getItem("user_name"):'',
   password:localStorage.getItem("user_psd")?localStorage.getItem("user_psd"):'',
   isRemember:false,
+  clientId:import.meta.env.VITE_CLIENT_ID,
+  authType:import.meta.env.VITE_CLIENT_AUTH_TYPE
 })
 const userStore = useUserStore();
 const handleSubmit = async () => {
   const date  = await login(form)
   console.log(date.data)
-  if (date?.code == 200){
+  if (date?.code == 0){
     //登录成功
     request.defaults.headers.common['Authorization'] = date.data
     localStorage.setItem("token",date.data);
