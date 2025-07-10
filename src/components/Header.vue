@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import {useRouter} from "vue-router";
   import {useUserStore} from "../store";
+  import request from "../utils/request.ts";
 
   const router = useRouter()
   const handleMenuClick = (key: string) => {
@@ -46,6 +47,7 @@
         <a-link  class="text" :hoverable="false" @click="() => {}">{{ userStore.username }}</a-link>
         <a-link href="link" class="text" :hoverable="false" @click="() => {
           userStore.clearUserInfo()
+          request.defaults.headers.common['Authorization'] = ''
         }">注销</a-link>
       </div>
     </div>

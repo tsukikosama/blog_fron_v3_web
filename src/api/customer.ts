@@ -52,7 +52,3 @@ export function registerCustomer(req:registerReq){
     return request.post(`${BASE_URL}/register`,req)
 }
 
-export function mainPageInfo(){
-
-    return request.get(`${BASE_URL}/mainInfo`)
-}

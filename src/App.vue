@@ -7,7 +7,7 @@ import Footer from "./components/Footer.vue";
   <div class="layout-demo">
     <a-layout class="layout">
       <a-layout-header style="position: sticky; top: 0; z-index: 1000; background: white; "><Header /></a-layout-header>
-      <a-layout-content class="content" id="basic-demo">
+      <a-layout-content class="content" >
         <router-view></router-view>
       </a-layout-content>
       <a-layout-footer class="footer"><Footer /></a-layout-footer>
@@ -25,8 +25,9 @@ import Footer from "./components/Footer.vue";
 
 .content {
   flex: 1; /* 自动撑开剩余空间 */
-  padding: 16px;
+  padding: 20px;
   background: #F5F5FA;
+
   overflow-y: auto; /* 内容溢出时显示滚动条 */
 }
 

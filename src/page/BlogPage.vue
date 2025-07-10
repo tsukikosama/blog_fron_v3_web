@@ -7,6 +7,7 @@ import Review from "../components/Review.vue";
 <template>
   <div id="basic-demo">
     <BlogDetail></BlogDetail>
+    <br>
     <Review></Review>
   </div>
 </template>

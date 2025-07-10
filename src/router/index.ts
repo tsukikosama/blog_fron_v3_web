@@ -8,7 +8,8 @@ const routes = [
     { path: '/blogDetail/:id', name: '博客详情', component: () => import('../page/BlogPage.vue') },
     { path: '/login', name: '登录页面', component: () => import('../page/LoginPage.vue') },
     { path: '/friendLink', name: '友链界面', component: () => import('../page/FriendLinkPage.vue') },
-    { path: '/register', name: '注册界面', component: () => import('../page/RegisterPage.vue') }
+    { path: '/register', name: '注册界面', component: () => import('../page/RegisterPage.vue') },
+    { path: '/timeLine', name: '归档界面', component: () => import('../page/ArchivePage.vue') }
 ]
 
 const router = createRouter({

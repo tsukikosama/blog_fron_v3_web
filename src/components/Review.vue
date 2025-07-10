@@ -16,28 +16,29 @@ const route = useRoute();
 
 
 const from = reactive<replyRequest>({
-  blogId:'',
-  content:'',
-  replyId:''
+  blogId:undefined,
+  content:undefined,
+  replyId:undefined,
+  reviewType:undefined,
 })
 
 const submitReply = async () => {
+
     const { data } = await reply(from)
-    Message.info(data)
     fetchDate()
 }
 const params = reactive({
-  current: 1,
-  pageSize: 10
+  page: 1,
+  size: 10
 } as queryParam)
 
 const dateList = ref<replyRecord[]>([] as replyRecord[])
 //初始化页面数据
 const fetchDate =  async () => {
-   params.id = route.params.id as string
-   from.blogId = route.params.id as string
+   params.blogId =Number( route.params.id )
+   from.blogId = Number (route.params.id )
    const { data } = await getReplyByBlogId(params);
-   dateList.value = data.records
+   dateList.value = data.list
    dateList.value.forEach((item: replyRecord) => {
       item.replyStatus = false
    });
@@ -81,38 +82,37 @@ const replyShow = ref(false);
         item.replyStatus = true
         from.replyId = item.id
       }">
-        <IconMessage /> Reply
+        <IconMessage /> 回复
       </span>
        </template>
        <template #avatar>
          <a-avatar>
            <img
                alt="avatar"
-               src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
+               :src="item.userAvatar"
            />
          </a-avatar>
        </template>
-       <div  v-for="(childItem,index2) in item.childList">
+       <div  v-for="(childItem,index2) in item.children">
          <a-comment
 
              :key="index2"
              :author="childItem.nickname"
-             :avatar="childItem.avatar"
+             :avatar="childItem.userAvatar"
              :content="childItem.content"
              :datetime="childItem.createTime"
          >
            <template #actions>
-             <span class="action"> <IconMessage /> Reply </span>
+             <span class="action"> <IconMessage />回复</span>
            </template>
          </a-comment>
        </div>
-       <div v-if="item.replyStatus" style="margin-top: 10px;width: 50vw">
+       <div v-if="item.replyStatus" style="margin-top: 10px;">
          <div style="display: flex; gap: 10px;    align-items: flex-end;">
            <a-textarea
                v-model="from.content"
                placeholder="请输入回复内容..."
                auto-size
-               style="flex: 1"
            />
            <a-button type="primary" @click="submitReply">
              提交
@@ -127,7 +127,7 @@ const replyShow = ref(false);
        暂无评论,快来评论一下吧
      </a-empty>
    </div>
-   <div v-show="replyShow" style="margin-top: 10px;width: 50vw;background: white;margin: 20px">
+   <div v-show="replyShow" style="margin-top: 10px;;background: white;margin: 20px">
      <div style="display: flex; gap: 10px;    align-items: flex-end;">
        <a-textarea
            v-model="from.content"
@@ -171,7 +171,7 @@ const replyShow = ref(false);
 .wrapper {
   display: flex;
   flex-direction: column;
-  margin: 5vh 10vw;
+
   background: white;
 
 }

@@ -1,5 +1,6 @@
 import request from "../utils/request.ts";
 
+const BASE_URL = '/blog'
 
 export interface BlogDetail {
     id: number;
@@ -31,18 +32,18 @@ export interface recentBlog{
 }
 
 export function queryBlog(params : blogParams) {
-    return request.get('/blog/page',{
+    return request.get(`${BASE_URL}/page`,{
         params,
 
     })
 }
 
-export function getBlogDetailById(id : number){
-    return request.get('/blog/detail/'+id)
+export function getBlogDetailById(id : string){
+    return request.get(`${BASE_URL}/`+id)
 }
 
 export function getRecentBlog(){
-    return request.get('/blog/recentBlog')
+    return request.get(`${BASE_URL}/recent`)
 }
 
 // export function getBlogByTagId(tagIds : number[]){

@@ -1,5 +1,6 @@
 import request from "../utils/request.ts";
 
+const BASE_URL = "/tag"
 
 export interface tag {
     id: number;
@@ -8,6 +9,6 @@ export interface tag {
 }
 
 export function queryTags() {
-    return request.get('/tag/list')
+    return request.get(`${BASE_URL}/list`)
 }
 

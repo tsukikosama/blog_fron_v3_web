@@ -6,6 +6,9 @@ interface UserInfo {
     roles: string[];
     nickname:string,
     avatar:string,
+    blogCount:string,
+    weekCount:string,
+    monthCount:string
 }
 
 export const useUserStore = defineStore('user', {
@@ -15,6 +18,9 @@ export const useUserStore = defineStore('user', {
         nickname:'',
         avatar:'',
         roles: [],
+        blogCount:'',
+        weekCount:'',
+        monthCount:''
     }),
     actions: {
         // 保存用户信息
@@ -24,6 +30,9 @@ export const useUserStore = defineStore('user', {
             this.nickname = userInfo.nickname;
             this.avatar = userInfo.avatar;
             this.roles = userInfo.roles;
+            this.blogCount = userInfo.blogCount
+            this.weekCount = userInfo.weekCount
+            this.monthCount = userInfo.monthCount
         },
 
         // 清除用户信息（比如退出登录时用）
@@ -33,6 +42,9 @@ export const useUserStore = defineStore('user', {
             this.roles = [];
             this.nickname = '';
             this.avatar = '';
+            this.blogCount = '';
+            this.weekCount = '';
+            this.monthCount = '';
         },
 
     },

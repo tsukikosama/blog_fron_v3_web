@@ -1,9 +1,10 @@
 import request from "../utils/request.ts";
 
 export interface replyRequest {
-    blogId:string,
-    content:string,
-    replyId:string
+    blogId:number | undefined,
+    content:string | undefined,
+    replyId:number |undefined,
+    reviewType:number | undefined
 }
 
 //通过博客id获取评论列表
@@ -17,13 +18,14 @@ export interface replyRecord {
     nickname:string;
     avatar:string;
     reviewType: number;
-    childList:replyRecord[]
-    replyStatus:boolean
+    children:replyRecord[]
+    replyStatus:boolean,
+    userAvatar:string
 }
 export interface queryParam{
-    id:string;
-    current: number;
-    pageSize: number;
+    blogId:number;
+    page: number;
+    size: number;
 }
 
 export interface mainPageReply{
@@ -34,12 +36,15 @@ export interface mainPageReply{
 }
 
 export function getReplyByBlogId(params : queryParam){
-    return request.get('/review/page',{
+    return request.get('/review',{
         params
     })
 }
 
 export function reply(params : replyRequest){
+    if (params.reviewType == undefined){
+        params.reviewType = 0
+    }
     return request.post('/review/reply',params)
 }
 

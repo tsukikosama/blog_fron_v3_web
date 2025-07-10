@@ -17,7 +17,8 @@ import {Message} from "@arco-design/web-vue";
     const page = ref<number>(1);
     const fetchDate = async () => {
       const { data }  = await queryBlog(params);
-      dateList.value = data.records
+      console.log(data)
+      dateList.value = data.list
       page.value = data.total
     }
 

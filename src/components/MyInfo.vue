@@ -1,20 +1,8 @@
 <script setup lang="ts">
   import {useUserStore} from "../store";
-  import {onMounted, ref} from "vue";
-  import type {mainUserInfo} from "../api/customer.ts";
-  import {mainPageInfo} from "../api/customer.ts";
 
   const userStore = useUserStore();
-  // 获取文章标签分类信息
-  const infoDate = ref<mainUserInfo>({} as mainUserInfo)
 
-  const fetchDate = async () => {
-    const { data } = await mainPageInfo();
-    infoDate.value = data
-  }
-  onMounted(()=>{
-    fetchDate()
-  })
 </script>
 
 <template>
@@ -31,11 +19,11 @@
         <span>{{userStore.nickname}}</span>
       </div>
       <div>
-        <span>文章总数:{{infoDate.blogCount}}</span>
+        <span>文章总数:{{userStore.blogCount}}</span>
         <a-divider direction="vertical" />
-        <span>本周更新:{{infoDate.weekCount}}</span>
+        <span>本周更新:{{userStore.weekCount}}</span>
         <a-divider direction="vertical" />
-        <span>本月更新:{{infoDate.monthCount}}</span>
+        <span>本月更新:{{userStore.monthCount}}</span>
       </div>
     </a-space>
   </div>
