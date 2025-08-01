@@ -9,15 +9,17 @@ import MyInfo from "../components/MyInfo.vue";
 <template>
   <div class="my_container">
 <!--    左边-->
-      <div>
+      <div class="left">
         <Blog></Blog>
       </div>
 <!--    右边-->
-    <a-space direction="vertical" :size="36">
-      <MyInfo/>
-      <Recommend />
-      <ReviewList />
-    </a-space>
+      <div>
+        <a-space direction="vertical" :size="40">
+          <MyInfo/>
+          <Recommend />
+          <ReviewList />
+        </a-space>
+      </div>
   </div>
 </template>
 
@@ -27,6 +29,8 @@ import MyInfo from "../components/MyInfo.vue";
   justify-content: center; /* 水平居中 */
 
   padding: 20px;            /* 可选：内边距 */
-  gap: 8vw; /* 调大间距，比如 80px */
+  gap: 6vw; /* 调大间距，比如 80px */
 }
+
+
 </style>

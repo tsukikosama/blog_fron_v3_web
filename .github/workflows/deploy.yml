@@ -1,0 +1,42 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy-web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+          cache-dependency-path: ./pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Deploy to Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          source: ./dist/*
+          target: /www/server/nginx/html/blog_end_v3
+          strip_components: 1

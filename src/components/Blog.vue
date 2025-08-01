@@ -121,7 +121,7 @@ import {Message} from "@arco-design/web-vue";
 <style scoped>
 .blog_container {
   min-height: 200px;
-  width: 50vw;
+  width: 60vw;
 }
 
 .blog_container :hover {

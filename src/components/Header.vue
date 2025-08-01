@@ -24,7 +24,9 @@
         <a-menu-item key="/treasure">挖宝</a-menu-item>
         <a-menu-item key="/picture">美图</a-menu-item>
         <a-menu-item key="/Ai">AI</a-menu-item>
-        <a-menu-item key="/">神秘小功能</a-menu-item>
+        <a-menu-item key="/No">神秘小功能</a-menu-item>
+        <a-menu-item key="/biubiubiu">弹幕测试</a-menu-item>
+        <a-menu-item key="/messageBoard">留言板</a-menu-item>
         <a-menu-item ></a-menu-item>
         <a-menu-item ></a-menu-item>
         <a-input-search

@@ -52,7 +52,6 @@ request.interceptors.response.use(
             return Promise.reject(res.msg);
         }
         if (res.code != 200){
-            Message.info(res.msg)
             return res;
         }
 

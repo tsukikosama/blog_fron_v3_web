@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 5px 24px; max-width: 1200px; margin: auto">
+  <div style="padding: 5px 24px; max-width: 90vw; margin: auto;background: white">
     <a-typography>
       <a-typography-title :heading="2">📁 内容归档</a-typography-title>
       <a-divider />
