@@ -47,7 +47,9 @@ request.interceptors.response.use(
         let res : Res = response.data
 
         if (res.code == 401){
-            location.href = "http://localhost:5173/login"
+            location.href == 'development'
+                ? 'http://localhost:5173/login'
+                : 'http://8.138.16.124:10001/login';
             return Promise.reject(res.msg);
         }
         if (res.code != 200){
