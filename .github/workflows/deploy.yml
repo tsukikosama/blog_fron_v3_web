@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: yarn
+          cache: 'yarn'
           cache-dependency-path: ./yarn.lock
 
       - name: Verify yarn version
@@ -30,17 +30,16 @@ jobs:
       - name: Build Vue project
         run: yarn run build
 
-      - name: Upload dist content using rsync
-        uses: appleboy/ssh-action@v1.2.2
+      - name: Upload dist to server
+        uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          script: |
-            echo "Uploading dist content..."
-            rsync -avz --delete ./dist/ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/www/server/nginx/html/blog_front_v3/
-            echo "Upload finished."
+          source: ./dist/*
+          target: /www/server/nginx/html/blog_front_v3/
+          strip_components: 1
 
       - name: Run remote hot reload commands
         uses: appleboy/ssh-action@v1.2.2
