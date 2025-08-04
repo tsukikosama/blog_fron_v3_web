@@ -108,7 +108,7 @@ const sendMsg = () => {
 }
 
 
-const wsClient = new WebSocketClient("ws://localhost:8088/ws/demo","bullet")
+const wsClient = new WebSocketClient(import.meta.env.VITE_WEB_SOCKET_URL,"bullet")
 // 初始测试用弹幕
 onMounted(() => {
   wsClient.connect()
