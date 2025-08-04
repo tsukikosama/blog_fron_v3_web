@@ -26,6 +26,9 @@ jobs:
           corepack enable
           corepack prepare pnpm@9 --activate
 
+      - name: Verify pnpm version
+        run: pnpm --version
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -33,28 +36,29 @@ jobs:
         run: pnpm run build
 
       - name: Upload dist to server
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v0.1.9
         with:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
-          # 如果用密钥登录，改成下面一行，注释掉 password
+          # 如果你用 ssh 私钥登录，取消下面注释，注释掉 password
           # key: ${{ secrets.SSH_PRIVATE_KEY }}
           password: ${{ secrets.SERVER_PASSWORD }}
           source: ./dist/*
           target: /www/server/vue-app/dist
 
       - name: Run remote hot reload commands
-        uses: appleboy/ssh-action@v0.1.10
+        uses: appleboy/ssh-action@v0.1.11
         with:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
-          # 如果用密钥登录，改成下面一行，注释掉 password
+          # 如果你用 ssh 私钥登录，取消下面注释，注释掉 password
           # key: ${{ secrets.SSH_PRIVATE_KEY }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            # 下面示例为 pm2 重启服务，或 nginx reload，根据你实际情况替换
-            pm2 reload vue-app || echo "pm2 reload failed, maybe app not managed by pm2"
-            # 或者 nginx reload
+            echo "Starting pm2 reload"
+            pm2 reload vue-app
+            echo "Reload finished"
+            # 如果你用 nginx 管理前端，也可以改成
             # sudo nginx -s reload
