@@ -14,24 +14,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js and pnpm
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: ./pnpm-lock.yaml
-          corepack: true
+          cache: 'yarn'
+          cache-dependency-path: ./yarn.lock
 
-      - name: Verify pnpm version
-        run: pnpm --version
+      - name: Verify yarn version
+        run: yarn --version
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Build Vue project
-        run: pnpm run build
+        run: yarn run build
 
-      # 后续上传和远程命令不变
       - name: Upload dist to server
         uses: appleboy/scp-action@v1.0.0
         with:
