@@ -14,17 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js and pnpm
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'pnpm'
           cache-dependency-path: ./pnpm-lock.yaml
-
-      - name: Enable Corepack and activate pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@9 --activate
+          corepack: true
 
       - name: Verify pnpm version
         run: pnpm --version
@@ -35,14 +31,13 @@ jobs:
       - name: Build Vue project
         run: pnpm run build
 
+      # 后续上传和远程命令不变
       - name: Upload dist to server
         uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
-          # 如果你用 ssh 私钥登录，取消下面注释，注释掉 password
-          # key: ${{ secrets.SSH_PRIVATE_KEY }}
           password: ${{ secrets.SERVER_PASSWORD }}
           source: ./dist/*
           target: /www/server/vue-app/dist
@@ -53,12 +48,8 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
-          # 如果你用 ssh 私钥登录，取消下面注释，注释掉 password
-          # key: ${{ secrets.SSH_PRIVATE_KEY }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             echo "Starting pm2 reload"
             pm2 reload vue-app
             echo "Reload finished"
-            # 如果你用 nginx 管理前端，也可以改成
-            # sudo nginx -s reload
