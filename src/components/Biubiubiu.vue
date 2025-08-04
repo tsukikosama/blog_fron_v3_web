@@ -25,6 +25,31 @@
       <a-button type="primary" @click="sendMsg">发送弹幕</a-button>
     </div>
   </div>
+
+  <!-- 功能描述 -->
+  <!-- 功能描述 -->
+  <div class="desc-section">
+    <div class="desc-title">📌 功能介绍</div>
+    <div class="desc-item">本模块支持通过 WebSocket 实时发送弹幕消息，消息将在上方区域以滚动形式展示。</div>
+    <div class="desc-item">用户可输入任意文本内容点击 “发送弹幕” 或按下 Enter 键实时触发弹幕。</div>
+
+    <div class="desc-title">🧪 技术栈</div>
+    <ul class="desc-list">
+      <li>Vue 3 + Composition API</li>
+      <li>Arco Design UI 组件库</li>
+      <li>WebSocket 实时通信（客户端封装 wsClient）</li>
+      <li>CSS 动画实现弹幕横向滚动效果</li>
+    </ul>
+
+    <div class="desc-title">🚀 可拓展方向</div>
+    <ul class="desc-list">
+      <li>支持图片/表情弹幕  </li>
+      <li>支持自己的弹幕有特殊的显示  </li>
+      <li>后端持久化弹幕记录并支持弹幕回放</li>
+      <li>增加弹幕开关、透明度、字体大小设置等个性化配置</li>
+    </ul>
+  </div>
+
 </template>
 
 <script setup lang="ts">
@@ -136,5 +161,32 @@ onMounted(() => {
   font-size: 16px;
   padding: 2px 8px;
   text-shadow: 1px 1px 2px #000;
+}
+
+.desc-section {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.desc-title {
+  font-weight: bold;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  color: #222;
+}
+
+.desc-item {
+  margin-left: 8px;
+}
+
+.desc-list {
+  list-style-type: disc;
+  padding-left: 24px;
+  margin: 4px 0 8px 0;
 }
 </style>
