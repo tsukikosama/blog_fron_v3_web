@@ -1,5 +1,4 @@
 import axios from "axios";
-import {Message} from "@arco-design/web-vue";
 
 
 const request = axios.create({
