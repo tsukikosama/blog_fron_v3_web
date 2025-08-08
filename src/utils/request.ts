@@ -1,77 +1,68 @@
 import axios from "axios";
-import {Message} from "@arco-design/web-vue";
+import { Message } from '@arco-design/web-vue';
 
-
+// 创建 Axios 实例
 const request = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,  // 注意！！ 这里是全局统一加上了 '/api' 前缀，也就是说所有接口都会加上'/api'前缀在，页面里面写接口的时候就不要加 '/api'了，否则会出现2个'/api'，类似 '/api/api/user'这样的报错，切记！！！
-    timeout: 10000
-})
-
-
-// request 拦截器
-// 可以自请求发送前对请求做一些处理
-// 比如统一加token，对请求参数统一加密
-request.interceptors.request.use((config: any ) => {
-    // const token = useSelector(state => state.token);
-    // console.log(token)
-    //如果satoken不为空就带上
-    config.headers['authorization'] = localStorage.getItem('token');
-    config.headers['Content-Type'] = 'application/json;charset=utf-8';
-    // config.headers['token'] = user.token;  // 设置请求头
-    // console.log(token)
-    // if (localStorage.getItem('sa-token') != null){
-    //     config.headers['satoken'] = localStorage.getItem('satoken');
-    // }
-    // if (token != '' ){
-    //     config.headers['sa-token'] = token;
-    // }
-
-    return config
-}, (error: any) => {
-    return Promise.reject(error)
+    baseURL: import.meta.env.VITE_API_BASE_URL, // 你的 API 基础地址
+    timeout: 10000,
 });
 
-interface Res {
-    data: any;
-    msg : string;
-    success : boolean;
-    total : number;
-    code: number;
-}
 
-// response 拦截器
-// 可以在接口响应后统一处理结果
-// @ts-ignore
+request.interceptors.request.use(
+    (config) => {
+
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 request.interceptors.response.use(
-    // @ts-ignore
-    (response : res | Promise   )=>{
-        let res : Res = response.data
+    (response) => {
 
-        if (res.code == 401){
-            location.href == 'development'
-                ? 'http://localhost:5173/login'
-                : 'http://8.138.16.124:10001/login';
-            return Promise.reject(res.msg);
+        const { data, config } = response;
+        let res: Res = data;
+
+        console.log(res)
+        // 未登录
+        if (res.code == 401) {
+            const loginUrl =
+                process.env.NODE_ENV === 'development'
+                    ? 'http://localhost:5173/login'
+                    : 'http://8.138.16.124:10001/login';
+            location.href = loginUrl;
+            throw new Error(res.msg || '未登录');
         }
-        if (res.code != 0){
-            Message.error(res.msg)
+
+        // 失败
+        if (res.code != 0) {
+            Message.error(res.msg || '请求失败');
+            throw new Error(res.msg || '请求失败');
+        }
+
+        // 文件流
+        if (config.responseType === 'blob') {
             return res;
         }
 
-        // 如果是返回的文件
-        if (response.config.responseType === 'blob') {
-            return res
-        }
-        // 兼容服务端返回的字符串数据
+        // 字符串 JSON
         if (typeof res === 'string') {
-            res = res ? JSON.parse(res) : res
+            try {
+                res = JSON.parse(res);
+            } catch {
+                Message.error('返回数据格式错误');
+                throw new Error('返回数据格式错误');
+            }
         }
 
-        return res;
-    }, error => {
-        console.log('err' + error) // for debug
-        return Promise.reject(error)
+        return res.data ?? res;
+    },
+    (error) => {
+        console.error('接口错误：', error);
+        Message.error(error.message || '网络错误');
+        return Promise.reject(error);
     }
-)
-export default request;
+);
 
+export default request;
