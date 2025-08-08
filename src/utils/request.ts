@@ -1,4 +1,5 @@
 import axios from "axios";
+import {Message} from "@arco-design/web-vue";
 
 
 const request = axios.create({
@@ -52,7 +53,8 @@ request.interceptors.response.use(
                 : 'http://8.138.16.124:10001/login';
             return Promise.reject(res.msg);
         }
-        if (res.code != 200){
+        if (res.code != 0){
+            Message.error(res.msg)
             return res;
         }
 

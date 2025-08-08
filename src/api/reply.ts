@@ -49,5 +49,5 @@ export function reply(params : replyRequest){
 }
 
 export function getMainPageReply(){
-    return request.get('/review/mainPage')
+    return request.get('/review/nearly')
 }
