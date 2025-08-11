@@ -7,14 +7,15 @@ export interface BlogDetail {
     title: string;
     picture: string;
     content: string;
-    createDate: string; // 通常 LocalDateTime 转成 ISO 字符串
+    createTime: string; // 通常 LocalDateTime 转成 ISO 字符串
     tagId: string;
-    visit: number;
+    visit
+        : number;
     userId: number;
-    nickname: string;
+    username: string;
     avatar: string;
     likes:number;
-    isLike:number;
+    simpleTitle:string
 }
 export interface blogParams {
     current: number;
@@ -39,7 +40,7 @@ export function queryBlog(params : blogParams) {
 }
 
 export function getBlogDetailById(id : string){
-    return request.get(`${BASE_URL}/`+id)
+    return request.get<BlogDetail>(`${BASE_URL}/`+id)
 }
 
 export function getRecentBlog(){

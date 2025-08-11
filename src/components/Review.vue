@@ -168,6 +168,7 @@ const replyShow = ref(false);
 </template>
 
 <style scoped>
+
 .action {
   display: inline-block;
   padding: 0 4px;
@@ -187,8 +188,8 @@ const replyShow = ref(false);
   display: flex;
   flex-direction: column;
 
-  background: white;
-
+  background-color: rgba(255, 255, 255, 0.5); /* 白色半透明 */
+  /*backdrop-filter: blur(3px); /* 模糊后面的背景图 */
 }
 
 .content {
