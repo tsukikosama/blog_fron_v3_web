@@ -16,10 +16,10 @@ import {Message} from "@arco-design/web-vue";
     const tagList = ref<tag[]>([]);
     const page = ref<number>(1);
     const fetchDate = async () => {
-      const page  = await queryBlog(params);
+      const { data }  = await queryBlog(params);
       console.log(page,"awwee")
-      dateList.value = page.list
-      page.value = page.total
+      dateList.value = data.list
+      page.value = data.total
 
     }
 

@@ -8,7 +8,8 @@ const blog = ref<BlogDetail>({} as BlogDetail)
 
 const fetchDate = async () => {
   const id = route.params.id;
-  const { data } = await getBlogDetailById(id); // 注意这里也要Number
+  const { data } = await getBlogDetailById(id as string); // 注意这里也要Number
+  console.log(data);
   blog.value = data
 }
 onMounted(async () => {

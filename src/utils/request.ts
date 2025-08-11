@@ -56,7 +56,7 @@ request.interceptors.response.use(
             }
         }
 
-        return res.data ?? res;
+        return res;
     },
     (error) => {
         console.error('接口错误：', error);
