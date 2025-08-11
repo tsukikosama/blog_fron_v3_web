@@ -9,11 +9,13 @@ const imgUrl = ref<string>('')
 
 
 onMounted( async () => {
-  console.log("mounted 运行了")
-  const {data} = await getImgName();
-  console.log(data,"aaaaa")
-  imgUrl.value = `url(${import.meta.env.VITE_IMG_BASE_URL}/${data})`
-  console.log(imgUrl.value ,"imgUrl")
+  try {
+    const res = await getImgName();
+    console.log('接口返回:', res);
+    imgUrl.value = `url(${import.meta.env.VITE_IMG_BASE_URL}/${res.data})`;
+  } catch (error) {
+    console.error('获取图片失败', error);
+  }
 })
 
 </script>
