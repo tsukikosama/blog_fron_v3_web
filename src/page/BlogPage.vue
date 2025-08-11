@@ -11,8 +11,9 @@ const imgUrl = ref<string>('')
 onMounted( async () => {
   console.log("mounted 运行了")
   const {data} = await getImgName();
+  console.log(data,"aaaaa")
   imgUrl.value = `url(${import.meta.env.VITE_IMG_BASE_URL}/${data})`
-  console.log(imgUrl.value)
+  console.log(imgUrl.value ,"imgUrl")
 })
 
 </script>
