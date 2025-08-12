@@ -29,10 +29,21 @@ onMounted( async () => {
 </template>
 
 <style scoped>
+
 #basic-demo {
-  min-height: 100vh; /* 占满整个屏幕高度 */
-  background-size: cover; /* 图片等比例铺满 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat; /* 防止重复平铺 */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  #basic-demo {
+    background-size: contain; /* 宽屏下完整显示 */
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  #basic-demo {
+    background-size: cover; /* 窄屏下铺满 */
+  }
 }
 </style>
