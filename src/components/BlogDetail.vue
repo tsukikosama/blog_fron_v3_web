@@ -33,7 +33,7 @@ const metaList = computed(() => [
     <div class="content" v-html="blog.content"></div>
     <!-- ✅ 用 v-md-preview -->
     <v-md-preview :text="blog.content"></v-md-preview>
-    <a-divider>博客详情信息</a-divider>
+<!--    <a-divider>博客详情信息</a-divider>-->
     <div class="meta-section">
       <div
           class="meta-item"
@@ -63,22 +63,6 @@ const metaList = computed(() => [
   background-color: rgba(255, 255, 255, 0.5); /* 白色半透明 */
   /*backdrop-filter: blur(3px); /* 模糊后面的背景图 */
 }
-.blog-detail {
-  padding: 24px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-.title {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-.subtitle {
-  font-size: 18px;
-  color: #666;
-  margin-bottom: 20px;
-}
 /* 信息区整体背景和样式 */
 .meta-section {
   display: flex;
@@ -87,7 +71,7 @@ const metaList = computed(() => [
   margin-bottom: 24px;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
-  padding: 16px 24px;
+
   box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.05);
   border: 1px solid #e1e6eb;
 }

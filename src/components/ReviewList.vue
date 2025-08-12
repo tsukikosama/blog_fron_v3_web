@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div style="background-color: white">
+  <div style="background-color: white ; margin-bottom: 20px">
     <a-list>
       <template #header>
         最新评论#

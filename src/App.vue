@@ -24,18 +24,25 @@ import Footer from "./components/Footer.vue";
 }
 
 .content {
-  flex: 1; /* 自动撑开剩余空间 */
-  padding: 20px;
+  flex: 1;
   background: #F5F5FA;
+  overflow-y: auto;
+  overflow-x: hidden; /* 防止横向滚动 */
 
-  overflow-y: auto; /* 内容溢出时显示滚动条 */
 }
-
+.layout-demo,
+.layout {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
 .footer {
   height: 60px;
   background: #000000;
   color: white; /* 白色字体 */
   text-align: center;
   line-height: 60px;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 </style>

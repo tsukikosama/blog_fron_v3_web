@@ -141,7 +141,6 @@ import {Message} from "@arco-design/web-vue";
   margin: 10px;
   background-color: white;
   border-radius: 10px;
-  justify-content: center;
 }
 .blog{
   margin-bottom : 20px ;

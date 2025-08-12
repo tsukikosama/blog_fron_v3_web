@@ -59,7 +59,9 @@
 
 <style scoped>
 .my-container {
-  width: 100vw;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .header-wrapper {
@@ -80,5 +82,11 @@
 
 .right-actions .text {
   width: 48px;
+}
+
+a-menu {
+  max-width: calc(100vw - 48px); /* 减去左右 padding */
+  overflow-x: auto;
+  white-space: nowrap;
 }
 </style>
