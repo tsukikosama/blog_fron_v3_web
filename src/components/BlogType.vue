@@ -1,52 +1,42 @@
 <script setup lang="ts">
 
-import {queryTags, tag} from "../api/tag.ts";
-import {onMounted, reactive, ref, watch} from "vue";
-import {BlogDetail, blogParams, getBlogByTagId, queryBlog} from "../api/blog.ts";
+import {queryTags, type tag} from "../api/tag.ts";
+import {onMounted, reactive, ref} from "vue";
+import {type BlogDetail, type blogParams, queryBlog} from "../api/blog.ts";
+import {useRouter} from "vue-router";
 
+const params = reactive({
+  current: 1,
+  pageSize: 9,
+  tagId:'',
+  title:''
+} as blogParams)
+const page = ref<number>(1);
 
 const dateList = ref<tag[]>([])
 const fetchDate = async () => {
   const { data } = await queryBlog(params)
-  blogList.value = data.records
+  console.log(data,"blog")
+  blogList.value = data.list
   page.value = data.total
 }
 const blogList = ref<BlogDetail[]>([])
 //调用获取数据
 onMounted(async () => {
-  fetchDate()
   const { data } = await queryTags()
-  dateList.value = dateList.value = data.map(item => ({
+  console.log("当前的data",data)
+  dateList.value = data.map(item  => ({
     ...item,
     checked: false
   }));
+  fetchDate()
 })
 // 被选中的checkList
-const checkList = ref<number[]>([])
-const check = (item:any) => {
-  item.check=!item.check
-  if (item.check){
-    //true添加进去
-    checkList.value.push(item)
-  }else{
-    checkList.value = checkList.value.filter(i => i.id  !== item.id as number);
-  }
+
+const check = () => {
+  fetchDate()
 }
-const params = reactive({
-  current: 1,
-  pageSize: 9,
-  tagId:'',
-  key:''
-} as blogParams)
-const page = ref<number>(1);
-watch(checkList, async (newVal, oldVal) => {
-  //获取全部的id
-  const ids = newVal.map(item => item.id);
 
-  params.tagId = ids.join(',');
-  fetchDate();
-
-}, { deep: true });
 const handlePageChange = (page) => {
   params.current = page;
 
@@ -55,6 +45,13 @@ const handlePageChange = (page) => {
 const search = () =>{
   fetchDate()
 }
+
+const router = useRouter();
+
+const toBlogDetail = (id : number) => {
+  router.push({ name: '博客详情', params: { id: id } });
+}
+
 </script>
 
 <template>
@@ -63,11 +60,15 @@ const search = () =>{
 
     <div class="container">
       <h1>分类</h1>
-      <a-space  size="40" >
-        <a-tag  size="large" checkable color="blue" @click="check(item)"  :default-checked="item.checked"
-               v-for="(item,index) in dateList"
-               :key="index">{{item.tagName}}</a-tag>
-      </a-space>
+
+      <a-radio-group v-model="params.tagId">
+        <a-grid :cols="3" :colGap="24" :rowGap="16">
+          <a-grid-item @click="check(item)"  v-for="(item,index) in dateList"
+                       :key="index">
+            <a-radio :value="item.id">{{item.name}}</a-radio>
+          </a-grid-item>
+        </a-grid>
+      </a-radio-group>
     </div>
     <!--    宝藏-->
     <div class="container">
@@ -77,14 +78,14 @@ const search = () =>{
             placeholder="搜索指定的宝藏"
             button-text="搜索"
             allow-clear
-            v-model="params.key"
+            v-model="params.title"
             @search="search()"
             style="width: 300px"
         />
       </div>
       <a-divider size="1"></a-divider>
       <div class="content" >
-        <a-card hoverable :style="{ width: '400px' }" v-for="(item,index) in blogList" :key="index">
+        <a-card hoverable :style="{ width: '400px' }" class="card-item" @click="toBlogDetail(item.id)" v-for="(item,index) in blogList" :key="index">
           <template #cover>
             <div
                 :style="{
@@ -101,9 +102,9 @@ const search = () =>{
           </template>
           <a-card-meta :title="item.title">
             <template #description>
-              作者:{{item.nickname}}<br />
+              作者:{{item.username}}<br />
               <a-space>
-                <span>发布时间:{{item.createDate}}</span>
+                <span>发布时间:{{item.createTime}}</span>
                 <span>点赞数:{{item.likes}}</span>
               </a-space>
             </template>
@@ -159,4 +160,8 @@ h1{
   flex-wrap:wrap;
   justify-content:center;
 }
+.card-item:hover{
+  cursor: pointer;
+}
+
 </style>

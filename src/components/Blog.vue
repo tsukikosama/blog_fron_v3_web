@@ -17,7 +17,6 @@ import {Message} from "@arco-design/web-vue";
     const page = ref<number>(1);
     const fetchDate = async () => {
       const { data }  = await queryBlog(params);
-      console.log(page,"awwee")
       dateList.value = data.list
       page.value = data.total
 
@@ -38,12 +37,10 @@ import {Message} from "@arco-design/web-vue";
     }
     const getTagName = (id:string) => {
       const ids = id ? id.split(',') : [];  // 防止 id 是空的
-      console.log(tagList.value , ids.length)
       if (!tagList?.value || !ids.length) return []; // 如果tagList或ids是空的直接返回
       const t =  tagList.value
           .filter(tag => ids.includes(String(tag.id)))  // 把tag.id转成字符串来比
           .map(tag => tag.tagName);
-      console.log(t)
       return t;
     }
     const formatDate = (dateStr:string) => {

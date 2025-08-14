@@ -104,7 +104,6 @@ export class WebSocketClient {
     send(data: any) {
 
         const str = typeof data === 'string' ? data : JSON.stringify(data)
-        console.log(data,str)
         this.ws?.send(str)
     }
 

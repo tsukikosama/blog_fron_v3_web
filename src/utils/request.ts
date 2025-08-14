@@ -23,8 +23,6 @@ request.interceptors.response.use(
 
         const { data, config } = response;
         let res: Res = data;
-
-        console.log(res)
         // 未登录
         if (res.code == 401) {
             const loginUrl =

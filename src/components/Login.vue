@@ -16,7 +16,6 @@ const form = reactive({
 const userStore = useUserStore();
 const handleSubmit = async () => {
   const date  = await login(form)
-  console.log(date.data)
   if (date?.code == 0){
     //登录成功
     request.defaults.headers.common['Authorization'] = date.data

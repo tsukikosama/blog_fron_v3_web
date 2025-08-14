@@ -11,7 +11,6 @@ const imgUrl = ref<string>('')
 onMounted( async () => {
   try {
     const res = await getImgName();
-    console.log('接口返回:', res);
     imgUrl.value = `url(${import.meta.env.VITE_IMG_BASE_URL}/${res.data})`;
   } catch (error) {
     console.error('获取图片失败', error);
