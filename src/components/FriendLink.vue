@@ -74,10 +74,14 @@
         </a-form-item>
 
         <a-form-item label="展示图URL" field="bannerImage">
-          <a-upload  :file-list="fileList"
-                     @before-upload="beforeUpload"
-                     @change="handleChange"
-          />
+<!--          <UpLoad-->
+<!--              v-model:value="form.bannerImage"-->
+<!--              :upload-url="uploadUrl"-->
+<!--              :auto-upload="true"-->
+<!--              :show-file-list="true"-->
+<!--              :max-size="10"-->
+<!--          />-->
+          <a-input v-model="form.avatar" placeholder="请输入头像图片地址" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -87,8 +91,9 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { Message } from "@arco-design/web-vue";
+import UpLoad from "./UpLoad.vue";
 
+const uploadUrl = `${import.meta.env.VITE_API_BASE_URL}/common/file`;
 interface FriendLink {
   name: string;
   url: string;
@@ -132,9 +137,6 @@ const showModal = ref(false);
 
 const formRef = ref();
 
-const beforeUpload = () => {
-
-}
 
 const form = reactive<FriendLink>({
   name: "",
@@ -170,29 +172,6 @@ const rules = {
     { type: "url", message: "请输入有效的 URL", trigger: "blur" }
   ]
 }
-
-const handleSubmit = () => {
-  formRef.value?.validate((errors) => {
-    if (!errors) {
-      // 校验通过
-      if (friendLinks.value.some((link) => link.name === form.name)) {
-        Message.error("已有相同名称的友链");
-        return;
-      }
-      friendLinks.value.push({ ...form });
-      Message.success("友链申请成功，已加入列表！");
-      resetForm();
-      showModal.value = false;
-    }
-  });
-}
-
-
-function handleCancel() {
-  resetForm();
-  showModal.value = false;
-}
-
 function resetForm() {
   form.name = "";
   form.url = "";
