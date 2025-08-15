@@ -29,12 +29,12 @@
         <a-menu-item key="/messageBoard">留言板</a-menu-item>
         <a-menu-item ></a-menu-item>
         <a-menu-item ></a-menu-item>
-        <a-input-search
-            placeholder="让我康康"
-            button-text="搜索"
-            allow-clear
-            style="width: 300px"
-        />
+<!--        <a-input-search-->
+<!--            placeholder="让我康康"-->
+<!--            button-text="搜索"-->
+<!--            allow-clear-->
+<!--            style="width: 300px"-->
+<!--        />-->
       </a-menu>
       <!-- 右边登录按钮 -->
       <div class="right-actions" v-if="!userStore.username">

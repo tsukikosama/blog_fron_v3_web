@@ -43,28 +43,9 @@
       申请友链
     </a-button>
 
-    <div class="friend-grid">
-      <div v-for="link in friendLinks" :key="link.name" class="friend-card">
-        <div class="friend-banner-image" v-if="link.bannerImage">
-          <img :src="link.bannerImage" alt="展示图片" />
-        </div>
-
-        <a :href="link.url" target="_blank" rel="noopener noreferrer" class="friend-link-content">
-          <img :src="link.avatar" alt="头像" class="friend-avatar" />
-
-          <div class="friend-info">
-            <div class="friend-name">{{ link.name }}</div>
-            <div class="friend-desc">{{ link.description }}</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- 申请友链表单弹窗 -->
     <a-modal
         v-model:visible="showModal"
         title="申请友链"
-        :ok-disabled="!formValid"
         @ok="handleSubmit"
         @cancel="handleCancel"
         destroy-on-close
@@ -76,32 +57,36 @@
           label-col="{ span: 6 }"
           wrapper-col="{ span: 16 }"
       >
-        <a-form-item label="网站名称" field="name" :rules="rules.name">
-          <a-input v-model:value="form.name" placeholder="请输入网站名称" />
+        <a-form-item label="网站名称" field="name">
+          <a-input v-model="form.name" placeholder="请输入网站名称" />
         </a-form-item>
 
-        <a-form-item label="网站链接" field="url" :rules="rules.url">
-          <a-input v-model:value="form.url" placeholder="请输入网站链接" />
+        <a-form-item label="网站链接" field="url">
+          <a-input v-model="form.url" placeholder="请输入网站链接" />
         </a-form-item>
 
-        <a-form-item label="网站描述" field="description" :rules="rules.description">
-          <a-input v-model:value="form.description" placeholder="请输入网站描述" />
+        <a-form-item label="网站描述" field="description">
+          <a-input v-model="form.description" placeholder="请输入网站描述" />
         </a-form-item>
 
-        <a-form-item label="头像URL" field="avatar" :rules="rules.avatar">
-          <a-input v-model:value="form.avatar" placeholder="请输入头像图片地址" />
+        <a-form-item label="头像URL" field="avatar">
+          <a-input v-model="form.avatar" placeholder="请输入头像图片地址" />
         </a-form-item>
 
-        <a-form-item label="展示图URL" field="bannerImage" :rules="rules.bannerImage">
-          <a-input v-model:value="form.bannerImage" placeholder="请输入展示图片地址" />
+        <a-form-item label="展示图URL" field="bannerImage">
+          <a-upload  :file-list="fileList"
+                     @before-upload="beforeUpload"
+                     @change="handleChange"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import { Message } from "@arco-design/web-vue";
 
 interface FriendLink {
@@ -147,6 +132,10 @@ const showModal = ref(false);
 
 const formRef = ref();
 
+const beforeUpload = () => {
+
+}
+
 const form = reactive<FriendLink>({
   name: "",
   url: "",
@@ -156,50 +145,48 @@ const form = reactive<FriendLink>({
 });
 
 const rules = {
-  name: [{ required: true, message: "请输入网站名称", trigger: "blur" }],
-  url: [
-    { required: true, message: "请输入网站链接", trigger: "blur" },
-    { type: "url", message: "请输入有效的URL", trigger: "blur" },
+  name: [
+    { required: true, message: "请输入网站名称", trigger: "blur" }
   ],
-  description: [{ required: true, message: "请输入网站描述", trigger: "blur" }],
+  url: [
+    { required: true, message: "请输入URL", trigger: "blur" },
+    {
+      validator: (value, callback) => {
+        const relaxedUrlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/.*)?$/;
+        if (!relaxedUrlPattern.test(value)) {
+          callback("请输入有效的URL");
+        } else {
+          callback();
+        }}, trigger: "blur"}],
+  description: [
+    { required: true, message: "请输入网站描述", trigger: "blur" }
+  ],
   avatar: [
     { required: true, message: "请输入头像图片地址", trigger: "blur" },
-    { type: "url", message: "请输入有效的URL", trigger: "blur" },
+    { type: "url", message: "请输入有效的 URL", trigger: "blur" }
   ],
   bannerImage: [
     { required: true, message: "请输入展示图片地址", trigger: "blur" },
-    { type: "url", message: "请输入有效的URL", trigger: "blur" },
-  ],
-};
-
-const formValid = computed(() => {
-  // 简单验证：所有必填字段都不为空，且链接格式正确
-  const urlRegex = /^https?:\/\/.+/;
-  return (
-      form.name.trim() !== "" &&
-      urlRegex.test(form.url) &&
-      form.description.trim() !== "" &&
-      urlRegex.test(form.avatar) &&
-      urlRegex.test(form.bannerImage)
-  );
-});
-
-function handleSubmit() {
-  // 简单表单校验后，加入友链列表
-  if (!formValid.value) {
-    Message.error("请完整且正确填写表单");
-    return;
-  }
-  // 判断重名（简单示例）
-  if (friendLinks.value.some((link) => link.name === form.name)) {
-    Message.error("已有相同名称的友链");
-    return;
-  }
-  friendLinks.value.push({ ...form });
-  Message.success("友链申请成功，已加入列表！");
-  resetForm();
-  showModal.value = false;
+    { type: "url", message: "请输入有效的 URL", trigger: "blur" }
+  ]
 }
+
+const handleSubmit = () => {
+  formRef.value?.validate((errors) => {
+    if (!errors) {
+      // 校验通过
+      if (friendLinks.value.some((link) => link.name === form.name)) {
+        Message.error("已有相同名称的友链");
+        return;
+      }
+      friendLinks.value.push({ ...form });
+      Message.success("友链申请成功，已加入列表！");
+      resetForm();
+      showModal.value = false;
+    }
+  });
+}
+
 
 function handleCancel() {
   resetForm();
@@ -218,7 +205,7 @@ function resetForm() {
 
 <style scoped>
 .friend-page {
-  margin: auto;
+  margin: 20px;    /* 外部留白 */
 
 }
 

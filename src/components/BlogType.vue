@@ -63,7 +63,7 @@ const toBlogDetail = (id : number) => {
 
       <a-radio-group v-model="params.tagId">
         <a-grid  :colGap="32" :rowGap="32" :cols="10" >
-          <a-grid-item @click="check(item)"  v-for="(item,index) in dateList"
+          <a-grid-item @change="check(item)"  v-for="(item,index) in dateList"
                        :key="index">
             <a-radio :value="item.id" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a-radio>
           </a-grid-item>

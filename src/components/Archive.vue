@@ -29,7 +29,7 @@
           <a
               v-for="item in section.archiveList"
               :key="item.id"
-              :href="`/blog/${item.id}`"
+              @click="toBlogDetail(item.id)"
               target="_blank"
               rel="noopener noreferrer"
               class="archive-item"
@@ -47,6 +47,7 @@
 import { ref, onMounted } from 'vue';
 import type {ArchiveResp} from "../api/Archive.ts";
 import {getArchive} from "../api/Archive.ts";
+import {useRouter} from "vue-router";
 
 // 响应式数据：归档内容 + 折叠年份
 const archiveData = ref<ArchiveResp[]>([]);
@@ -67,6 +68,12 @@ function toggleCollapse(year: number) {
   }
   // 手动触发响应式更新
   collapsedYears.value = new Set(collapsedYears.value);
+}
+
+const router = useRouter()
+
+const toBlogDetail = (id : number) => {
+  router.push({ name: '博客详情', params: { id: id } });
 }
 </script>
 
