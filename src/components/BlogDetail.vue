@@ -22,9 +22,6 @@ const metaList = computed(() => [
   { label: '点赞数量', value: ` ${blog.value.likes}` },
   { label: '博客标签', value: blog.value.tagId, isTag: true }
 ])
-
-
-
 </script>
 
 <template>
@@ -65,13 +62,13 @@ const metaList = computed(() => [
 }
 /* 信息区整体背景和样式 */
 .meta-section {
+  padding: 16px;
   display: flex;
   flex-wrap: wrap;
   gap: 24px 32px;
   margin-bottom: 24px;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
-
   box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.05);
   border: 1px solid #e1e6eb;
 }

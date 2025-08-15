@@ -32,17 +32,8 @@ onMounted( async () => {
 #basic-demo {
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed; /* 关键 */
+  background-size: cover;       /* 让背景填满容器 */
 }
 
-@media (min-aspect-ratio: 16/9) {
-  #basic-demo {
-    background-size: contain; /* 宽屏下完整显示 */
-  }
-}
-
-@media (max-aspect-ratio: 16/9) {
-  #basic-demo {
-    background-size: cover; /* 窄屏下铺满 */
-  }
-}
 </style>
