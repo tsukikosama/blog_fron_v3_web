@@ -64,7 +64,7 @@ import {Message} from "@arco-design/web-vue";
       }
     }
     const toPage = async (curr:number) => {
-      params.current = curr;
+      params.page = curr;
       await fetchDate()
     }
 </script>

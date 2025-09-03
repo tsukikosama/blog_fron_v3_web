@@ -37,7 +37,7 @@ const check = () => {
 }
 
 const handlePageChange = (page) => {
-  params.current = page;
+  params.page = page;
 
   fetchDate(); // 重新请求数据
 };
