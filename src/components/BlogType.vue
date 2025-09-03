@@ -6,8 +6,8 @@ import {type BlogDetail, type blogParams, queryBlog} from "../api/blog.ts";
 import {useRouter} from "vue-router";
 
 const params = reactive({
-  current: 1,
-  pageSize: 9,
+  page: 1,
+  size: 9,
   tagId:'',
   title:''
 } as blogParams)
@@ -16,7 +16,6 @@ const page = ref<number>(1);
 const dateList = ref<tag[]>([])
 const fetchDate = async () => {
   const { data } = await queryBlog(params)
-  console.log(data,"blog")
   blogList.value = data.list
   page.value = data.total
 }

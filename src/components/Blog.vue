@@ -10,8 +10,8 @@ import {Message} from "@arco-design/web-vue";
     const dateList = ref<BlogDetail[]>([])
 
     const params = reactive({
-      current: 1,
-      pageSize: 10
+      page: 1,
+      size: 10
     } as blogParams)
     const tagList = ref<tag[]>([]);
     const page = ref<number>(1);
