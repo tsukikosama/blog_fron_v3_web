@@ -1,4 +1,5 @@
 import request from "../utils/request.ts";
+import {PageParams} from "../utils/BasePageParams.ts";
 
 export interface replyRequest {
     blogId:number | undefined,
@@ -22,10 +23,8 @@ export interface replyRecord {
     replyStatus:boolean,
     userAvatar:string
 }
-export interface queryParam{
+export interface queryParam extends PageParams{
     blogId:number;
-    page: number;
-    size: number;
 }
 
 export interface mainPageReply{

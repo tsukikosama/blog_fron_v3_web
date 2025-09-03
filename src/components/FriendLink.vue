@@ -85,15 +85,45 @@
         </a-form-item>
       </a-form>
     </a-modal>
+    <!-- 友链列表 -->
+    <div class="friend-grid">
+      <div
+          v-for="friend in friendLinks"
+          :key="friend.name"
+          class="friend-card"
+          @click="openFriendLink(friend.url)"
+      >
+        <!-- 顶部展示图 -->
+        <div class="friend-banner-image" v-if="friend.bannerImage">
+          <img :src="friend.bannerImage" :alt="friend.name" />
+        </div>
 
+        <!-- 友链内容 -->
+        <div class="friend-link-content">
+          <img
+              class="friend-avatar"
+              :src="friend.avatar"
+              :alt="friend.name"
+              @error="handleImageError"
+          />
+          <div class="friend-info">
+            <div class="friend-name">{{ friend.name }}</div>
+            <div class="friend-desc">{{ friend.description }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 空状态 -->
+      <div v-if="friendLinks.length === 0" class="empty-state">
+        <a-empty description="暂无友链数据" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import UpLoad from "./UpLoad.vue";
 
-const uploadUrl = `${import.meta.env.VITE_API_BASE_URL}/common/file`;
 interface FriendLink {
   name: string;
   url: string;
@@ -146,6 +176,8 @@ const form = reactive<FriendLink>({
   bannerImage: "",
 });
 
+
+
 const rules = {
   name: [
     { required: true, message: "请输入网站名称", trigger: "blur" }
@@ -171,6 +203,14 @@ const rules = {
     { required: true, message: "请输入展示图片地址", trigger: "blur" },
     { type: "url", message: "请输入有效的 URL", trigger: "blur" }
   ]
+}
+const handleSubmit = () => {
+  //添加友链方法
+}
+
+const handleCancel = () => {
+  //取消添加方法
+  resetForm()
 }
 function resetForm() {
   form.name = "";

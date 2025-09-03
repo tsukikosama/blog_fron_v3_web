@@ -1,4 +1,5 @@
 import request from "../utils/request.ts";
+import type {PageParams} from "../utils/BasePageParams.ts";
 
 const BASE_URL = '/blog'
 
@@ -17,9 +18,7 @@ export interface BlogDetail {
     likes:number;
     simpleTitle:string
 }
-export interface blogParams {
-    current: number;
-    pageSize: number;
+export interface blogParams extends PageParams{
     tagId?:string;
     key?:string;
 }
